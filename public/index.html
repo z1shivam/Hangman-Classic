@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0C0A09" />
+    <link rel="icon" type="image/x-icon" href="/assets/favicon-VDimoNy-.ico" />
+    <title>Hangman Classic</title>
+
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-LQP1SZL6KF"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "G-LQP1SZL6KF");
+    </script>
+    <link rel="stylesheet" crossorigin href="/assets/index-0et7JDXt.css">
+  </head>
+  <body class="bg-stone-950 flex flex-col items-center">
+    <header
+      class="w-full h-16 bg-stone-950 border-b-2 border-stone-900 fixed top-0 z-20"
+    >
+      <div
+        class="flex w-full h-full justify-between px-3 items-center max-w-3xl mx-auto"
+      >
+        <h1 class="text-stone-100 text-3xl">
+          <span class="font-yatra">Hangman</span
+          ><span class="font-mark text-red-400">classic</span>
+        </h1>
+        <h2 class="font-ubuntu text-yellow-300 text-lg mt-2" id="level">
+          Easy
+        </h2>
+      </div>
+    </header>
+    <section
+      class="fixed w-full h-full top-16 z-10 backdrop-blur-md text-white flex flex-col justify-start items-center pt-12 px-3 bg-stone-950 bg-opacity-50"
+      id="welcomeScreen"
+    >
+      <div class="font-yatra text-3xl py-3 text-center">Welcome</div>
+      <div class="font-ubuntu text-blue-400 py-1 text-center text-lg">
+        The rules of this game are very simple.
+      </div>
+      <div
+        class="font-ubuntu text-yellow-400 text-center text-lg max-w-3xl mx-auto"
+      >
+        You just have to guess a word by guessing one character at a time
+        without any clues. You have 10 points, and for every wrong guess you
+        lose 1 point.
+      </div>
+      <div class="font-ubuntu py-3 text-lg text-center">
+        <h2>Set Difficulty Level</h2>
+        <div class="border-2 border-stone-800 grid grid-cols-3 gap-3 my-2">
+          <button id="button1" onclick="setLevel('Easy')" class="px-4 py-2">
+            Easy
+          </button>
+          <button id="button2" onclick="setLevel('Medium')" class="px-4 py-2">
+            Medium
+          </button>
+          <button id="button3" onclick="setLevel('Hard')" class="px-4 py-2">
+            Hard
+          </button>
+        </div>
+      </div>
+      <div class="pb-5 font-ubuntu text-blue-300">
+        Your word is
+        <span id="wordLength" class="text-green-400"></span> letters long.
+      </div>
+      <div>
+        <button
+          class="font-ubuntu border-2 border-green-800 px-3 py-2 active:scale-95 active:bg-stone-700"
+          onclick="startGame()"
+        >
+          Start Game
+        </button>
+      </div>
+    </section>
+    <main class="fixed w-full h-full top-16 z-0 max-w-3xl mx-auto">
+      <section
+        class="p-3 text-white flex justify-between items-center font-ubuntu text-lg"
+      >
+        <div>
+          <span class="text-green-400">Steps: </span>
+          <span class="text-yellow-300" id="stepCount">0</span>
+        </div>
+        <div>
+          <span class="text-green-400">Attempts left: </span>
+          <span class="text-yellow-300" id="attemptsLeft">10</span>
+        </div>
+      </section>
+      <section class="px-3 py-2 text-white font-ubuntu text-lg">
+        <div class="flex items-center justify-center w-full">
+          <div
+            class="tracking-widest text-4xl text-stone-400 py-4"
+            id="userWord"
+          >
+            _____
+          </div>
+        </div>
+      </section>
+      <section class="px-3 text-white font-ubuntu text-lg py-2">
+        <div>
+          <span class="text-stone-400">Status: </span>
+          <span class="text-blue-400" id="status">Unattempted</span>
+        </div>
+        <span class="text-stone-400">Incorrect:</span>
+        <span id="incorrectAttempts" class="text-yellow-300">None</span>
+      </section>
+      <section class="p-3 text-white font-ubuntu text-lg">
+        <input
+          type="text"
+          name="charGuess"
+          id="guessInput"
+          class="text-center w-full p-2 bg-transparent border-b-2 border-stone-800 outline-none text-stone-200 focus:outline-none focus:border-blue-400 caret-transparent"
+          placeholder="enter your guess"
+        />
+        <div>
+          <button
+            class="w-full py-3 bg-stone-800 mt-2 rounded-md text-stone-400 active:scale-95 active:bg-stone-700"
+            id="submitGuess"
+          >
+            SUBMIT GUESS
+          </button>
+        </div>
+      </section>
+      <section
+        class="fixed w-full h-full top-16 z-10 backdrop-blur-md text-white pt-12 px-3 bg-stone-950 bg-opacity-50 hidden mx-auto max-w-3xl"
+        id="gameWonScreen"
+      >
+        <div class="font-yatra text-3xl py-3 text-center">Congratulations</div>
+        <div class="font-ubuntu text-blue-400 py-1 text-center text-lg">
+          You have won the game.
+        </div>
+        <div class="font-ubuntu text-yellow-400 text-center text-lg">
+          You have guessed the word
+          <span id="guessedWord" class="text-green-400"></span> in
+          <span id="guessedSteps" class="text-green-400"></span> steps.
+        </div>
+        <div class="font-ubuntu py-3 text-lg text-center">
+          <button
+            class="font-ubuntu border-2 border-green-800 px-3 py-2"
+            onclick="restartGame()"
+          >
+            Play Again
+          </button>
+        </div>
+      </section>
+      <section
+        class="fixed w-full h-full top-16 z-10 backdrop-blur-md text-white pt-12 px-3 bg-stone-950 bg-opacity-25 hidden mx-auto max-w-3xl"
+        id="gameOverScreen"
+      >
+        <div class="font-yatra text-3xl py-3 text-center">Game Over</div>
+        <div class="font-ubuntu text-blue-400 py-1 text-center text-lg">
+          Oops, You ran out of attempts.
+        </div>
+        <div class="font-ubuntu text-yellow-400 text-center text-lg">
+          The word was
+          <span id="lostWord" class="text-green-400"></span>.
+        </div>
+        <div class="font-ubuntu py-3 text-lg text-center">
+          <button
+            class="font-ubuntu border-2 border-green-800 px-3 py-2"
+            onclick="restartGame()"
+          >
+            Try Again
+          </button>
+        </div>
+      </section>
+    </main>
+  </body>
+  <script src="/main.js"></script>
+</html>
